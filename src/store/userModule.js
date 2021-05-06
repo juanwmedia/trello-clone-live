@@ -4,7 +4,9 @@ export default {
   state: {
     user
   },
-  getters: {},
+  getters: {
+    getUserAvatar: state => state.user.avatar
+  },
   mutations: {},
   actions: {}
 };

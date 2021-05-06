@@ -6,7 +6,9 @@ export default {
     columns,
     cards
   },
-  getters: {},
+  getters: {
+    getBoardName: state => state.board.name
+  },
   mutations: {},
   actions: {}
 };

@@ -7,7 +7,11 @@ export default {
     cards
   },
   getters: {
-    getBoardName: state => state.board.name
+    getBoardName: state => state.board.name,
+    getCardsByColumn: state => column =>
+      state.cards
+        .filter(card => card.column === column)
+        .sort((a, b) => a.order - b.order)
   },
   mutations: {},
   actions: {}

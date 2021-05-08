@@ -1,6 +1,7 @@
 <template>
   <div class="board">
     <AppColumn v-for="column in columns" :key="column.id" :column="column">
+      <CardList :column="column" />
     </AppColumn>
   </div>
 </template>
@@ -9,6 +10,7 @@
 import { useStore } from "vuex";
 import { computed } from "vue";
 import AppColumn from "@/components/AppColumn.vue";
+import CardList from "@/components/CardList.vue";
 export default {
   name: "ColumnList",
   setup() {
@@ -17,7 +19,8 @@ export default {
     return { columns };
   },
   components: {
-    AppColumn
+    AppColumn,
+    CardList
   }
 };
 </script>

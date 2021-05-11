@@ -14,5 +14,12 @@ export default {
         .sort((a, b) => a.order - b.order)
   },
   mutations: {},
-  actions: {}
+  actions: {
+    updateColumns(context, columns) {
+      console.log(columns);
+    },
+    updateCards(context, { column, cards }) {
+      console.log(column, cards);
+    }
+  }
 };

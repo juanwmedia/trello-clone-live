@@ -1,26 +1,33 @@
 <template>
-  <div class="board">
-    <AppColumn v-for="column in columns" :key="column.id" :column="column">
-      <CardList :column="column" />
-    </AppColumn>
-  </div>
+  <draggable v-model="columns" class="board" item-key="key" group="columns">
+    <template #item="{element}">
+      <AppColumn :column="element">
+        <CardList :column="element" />
+      </AppColumn>
+    </template>
+  </draggable>
 </template>
 
 <script>
 import { useStore } from "vuex";
 import { computed } from "vue";
+import draggable from "vuedraggable";
 import AppColumn from "@/components/AppColumn.vue";
 import CardList from "@/components/CardList.vue";
 export default {
   name: "ColumnList",
   setup() {
     const store = useStore();
-    const columns = computed(() => store.state.boardModule.columns);
+    const columns = computed({
+      get: () => store.state.boardModule.columns,
+      set: value => store.dispatch("boardModule/updateColumns", value)
+    });
     return { columns };
   },
   components: {
     AppColumn,
-    CardList
+    CardList,
+    draggable
   }
 };
 </script>

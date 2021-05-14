@@ -6,6 +6,7 @@ export default createStore({
   actions: {
     initApp({ dispatch }) {
       dispatch("boardModule/getBoard");
+      dispatch("boardModule/getColumns");
     }
   },
   modules: { boardModule, userModule }

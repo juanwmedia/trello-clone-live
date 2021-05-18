@@ -80,9 +80,22 @@ export default {
       await ref.doc(id).set(column);
     },
 
-    updateColumns(context, columns) {
-      console.log(columns);
+    updateColumns({ dispatch }, columns) {
+      columns.forEach((column, index) => {
+        if (column.order !== index) {
+          column.order = index;
+          dispatch("updateColumnOrder", column);
+        }
+      });
     },
+
+    async updateColumnOrder(context, column) {
+      await db
+        .collection("columns")
+        .doc(column.id)
+        .update({ order: column.order });
+    },
+
     async updateColumnName(context, { id, name }) {
       await db
         .collection("columns")

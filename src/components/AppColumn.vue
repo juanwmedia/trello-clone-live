@@ -1,7 +1,13 @@
 <template>
   <div class="column | p-3 mr-4 | rounded bg-gray-100 cursor-move">
     <div class="flex justify-between">
-      <a class="text-sm text-right block text-gray-600" href="#">Delete</a>
+      <a
+        v-show="emptyColumn"
+        @click="deleteColumn"
+        class="text-sm text-right block text-gray-600"
+        href="#"
+        >Delete</a
+      >
       <a class="text-sm text-right block text-gray-600" href="#">Create Card</a>
     </div>
     <h3
@@ -24,12 +30,23 @@ export default {
       type: Object
     }
   },
+  computed: {
+    emptyColumn() {
+      return (
+        this.$store.getters["boardModule/getCardsByColumn"](this.column.id)
+          .length === 0
+      );
+    }
+  },
   methods: {
     onEdit(evt) {
       this.$store.dispatch("boardModule/updateColumnName", {
         id: this.column.id,
         name: evt.target.innerText
       });
+    },
+    deleteColumn() {
+      this.$store.dispatch("boardModule/deleteColumn", this.column.id);
     }
   }
 };

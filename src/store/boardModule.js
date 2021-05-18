@@ -103,6 +103,13 @@ export default {
         .update({ name });
     },
 
+    async deleteColumn(contex, id) {
+      await db
+        .collection("columns")
+        .doc(id)
+        .delete();
+    },
+
     updateCards(context, { column, cards }) {
       console.log(column, cards);
     }

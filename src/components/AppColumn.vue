@@ -5,6 +5,8 @@
       <a class="text-sm text-right block text-gray-600" href="#">Create Card</a>
     </div>
     <h3
+      contenteditable
+      @blur="onEdit"
       class="mb-3 | text-gray-700 font-semibold font-sans tracking-wide text-xl text-center"
     >
       {{ column.name }}
@@ -20,6 +22,14 @@ export default {
   props: {
     column: {
       type: Object
+    }
+  },
+  methods: {
+    onEdit(evt) {
+      this.$store.dispatch("boardModule/updateColumnName", {
+        id: this.column.id,
+        name: evt.target.innerText
+      });
     }
   }
 };

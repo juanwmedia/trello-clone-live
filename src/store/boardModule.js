@@ -83,6 +83,13 @@ export default {
     updateColumns(context, columns) {
       console.log(columns);
     },
+    async updateColumnName(context, { id, name }) {
+      await db
+        .collection("columns")
+        .doc(id)
+        .update({ name });
+    },
+
     updateCards(context, { column, cards }) {
       console.log(column, cards);
     }

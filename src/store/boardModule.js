@@ -131,8 +131,21 @@ export default {
       }
     },
 
-    updateCards(context, { column, cards }) {
-      console.log(column, cards);
+    async updateCardMeta(context, card) {
+      await db
+        .collection("cards")
+        .doc(card.id)
+        .update({ order: card.order, column: card.column });
+    },
+
+    updateCards({ dispatch }, { column, cards }) {
+      cards.forEach((card, index) => {
+        if (card.order !== index || card.column !== column.id) {
+          card.order = index;
+          card.column = column.id;
+          dispatch("updateCardMeta", card);
+        }
+      });
     }
   }
 };

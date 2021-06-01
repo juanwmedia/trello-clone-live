@@ -24,9 +24,13 @@ export default {
     },
     setColumns(state, columns) {
       state.columns = columns;
+    },
+    setCards(state, cards) {
+      state.cards = cards;
     }
   },
   actions: {
+    // Board actions
     async getBoard({ rootState, commit }) {
       const uid = rootState.userModule.user.uid;
       const defaultBoard = {
@@ -53,6 +57,7 @@ export default {
       commit("setBoard", board);
     },
 
+    // Column actions
     async getColumns({ commit, rootState }) {
       await db
         .collection("columns")
@@ -108,6 +113,22 @@ export default {
         .collection("columns")
         .doc(id)
         .delete();
+    },
+
+    // Card actions
+    async getCards({ commit, rootState }) {
+      await db
+        .collection("cards")
+        .where("board", "==", rootState.userModule.user.uid)
+        .onSnapshot(doSnapshot);
+
+      function doSnapshot(querySnapshot) {
+        const cards = [];
+        querySnapshot.forEach(doc => {
+          cards.push(doc.data());
+        });
+        commit("setCards", cards);
+      }
     },
 
     updateCards(context, { column, cards }) {

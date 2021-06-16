@@ -1,5 +1,6 @@
 <template>
   <div
+    @click="openCard"
     class="px-3 pt-3 pb-5 mb-3 | bg-white shadow rounded border border-white cursor-move"
   >
     <h4 class="text-gray-700 font-semibold font-sans tracking-wide text-md">
@@ -14,6 +15,8 @@
 
 <script>
 import { computed } from "vue";
+import { useRouter } from "vue-router";
+
 import UserAvatar from "@/components/UserAvatar.vue";
 export default {
   name: "BoardCard",
@@ -23,7 +26,12 @@ export default {
     }
   },
   setup(props) {
+    const router = useRouter();
+    const openCard = () => {
+      router.push({ name: "card", params: { id: props.card.id } });
+    };
     return {
+      openCard,
       cardDate: computed(() =>
         new Date(+props.card.date).toLocaleDateString("es-ES")
       )

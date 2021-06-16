@@ -1,5 +1,6 @@
 // import { board, columns, cards } from "@/seed.js";
 import { db } from "@/firebase.js";
+import { useStore } from "vuex";
 
 export default {
   namespaced: true,
@@ -154,6 +155,32 @@ export default {
         .collection("cards")
         .doc(card.id)
         .update({ order: card.order, column: card.column });
+    },
+
+    checkCard({ state }, id) {
+      const store = useStore();
+      return new Promise((resolve, reject) => {
+        // Buscamos localmente en el estado
+        if (state.cards.length) {
+          findCard();
+        } else {
+          const unsubscribe = store.subscribe(mutation => {
+            if (mutation.type === "boardModule/setCards") {
+              findCard();
+              unsubscribe();
+            }
+          });
+        }
+
+        function findCard() {
+          const card = state.cards.find(card => card.id === id);
+          if (card) {
+            resolve(card);
+          } else {
+            reject("Card not found");
+          }
+        }
+      });
     },
 
     updateCards({ dispatch }, { column, cards }) {

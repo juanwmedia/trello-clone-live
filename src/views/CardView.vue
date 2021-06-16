@@ -1,13 +1,12 @@
 <template>
-  <div>Card View</div>
-  <div>{{ card.name }}</div>
+  <AppCard :card="card" />
 </template>
 
 <script>
 import { ref } from "vue";
 import { useStore } from "vuex";
 import { useRouter, useRoute } from "vue-router";
-
+import AppCard from "@/components/AppCard.vue";
 export default {
   name: "CardView",
   setup() {
@@ -22,6 +21,9 @@ export default {
       .catch(() => router.push("/board"));
 
     return { card };
+  },
+  components: {
+    AppCard
   }
 };
 </script>

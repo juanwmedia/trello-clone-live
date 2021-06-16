@@ -8,7 +8,12 @@
         href="#"
         >Delete</a
       >
-      <a class="text-sm text-right block text-gray-600" href="#">Create Card</a>
+      <a
+        @click="createCard"
+        class="text-sm text-right block text-gray-600"
+        href="#"
+        >Create Card</a
+      >
     </div>
     <h3
       contenteditable
@@ -44,6 +49,9 @@ export default {
         id: this.column.id,
         name: evt.target.innerText
       });
+    },
+    createCard() {
+      this.$store.dispatch("boardModule/createCard", this.column.id);
     },
     deleteColumn() {
       this.$store.dispatch("boardModule/deleteColumn", this.column.id);

@@ -16,7 +16,9 @@ export default {
         .filter(card => card.column === column)
         .sort((a, b) => a.order - b.order),
     getNextColumnOrder: state =>
-      Math.max(...state.columns.map(column => column.order)) + 1
+      Math.max(...state.columns.map(column => column.order)) + 1,
+    getNextCardOrder: state =>
+      Math.max(...state.cards.map(card => card.order)) + 1
   },
   mutations: {
     setBoard(state, board) {
@@ -129,6 +131,22 @@ export default {
         });
         commit("setCards", cards);
       }
+    },
+
+    async createCard({ rootState, state, getters }, column) {
+      const ref = db.collection("cards");
+      const { id } = ref.doc();
+      const card = {
+        name: "New Card",
+        description: "This is a Card description",
+        id,
+        board: rootState.userModule.user.uid,
+        column,
+        date: new Date().getTime() + 5 * 24 * 60 * 60 * 1000,
+        done: false,
+        order: state.cards.length ? getters["getNextCardOrder"] : 0
+      };
+      await ref.doc(id).set(card);
     },
 
     async updateCardMeta(context, card) {

@@ -1,5 +1,6 @@
 <template>
   <div
+    @click.self="closeCard"
     class="wrapper w-full h-full flex justify-center items-center bg-black absolute top-0 left-0 z-10 cursor-pointer"
   >
     <div class="w-1/3 bg-white p-3 rounded">
@@ -12,7 +13,9 @@
         >
           {{ card.name }}
         </h1>
-        <a class="flex-grow block text-right" href="#">Delete Card</a>
+        <a @click="deleteCard" class="flex-grow block text-right" href="#"
+          >Delete Card</a
+        >
       </div>
       <div class="flex justify-between items-center my-3">
         <div>
@@ -46,6 +49,7 @@
 import UserAvatar from "@/components/UserAvatar.vue";
 import { computed } from "vue";
 import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 export default {
   name: "AppCard",
   props: {
@@ -55,6 +59,8 @@ export default {
   },
   setup(props) {
     const store = useStore();
+    const router = useRouter();
+
     const cardDate = computed(() =>
       new Date(props.card.date).toLocaleDateString("en-CA")
     );
@@ -75,9 +81,17 @@ export default {
         }
       }
     };
+    const closeCard = () => router.go(-1);
+    const deleteCard = () => {
+      store.dispatch("boardModule/deleteCard", props.card.id);
+      closeCard();
+    };
+
     return {
       cardDate,
-      updateCard
+      updateCard,
+      closeCard,
+      deleteCard
     };
   },
   components: {

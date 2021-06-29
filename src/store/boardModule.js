@@ -199,6 +199,13 @@ export default {
         .collection("cards")
         .doc(id)
         .update({ [key]: value });
+    },
+
+    async deleteCard(context, id) {
+      await db
+        .collection("cards")
+        .doc(id)
+        .delete();
     }
   }
 };

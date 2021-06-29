@@ -191,6 +191,14 @@ export default {
           dispatch("updateCardMeta", card);
         }
       });
+    },
+
+    async updateCard(context, card) {
+      const [id, key, value] = Object.values(card);
+      await db
+        .collection("cards")
+        .doc(id)
+        .update({ [key]: value });
     }
   }
 };

@@ -10,7 +10,6 @@ export default {
     cards: []
   },
   getters: {
-    getBoardName: state => state.board.name,
     getColumns: state => state.columns.sort((a, b) => a.order - b.order),
     getCardsByColumn: state => column =>
       state.cards
@@ -58,6 +57,14 @@ export default {
       }
 
       commit("setBoard", board);
+    },
+
+    async updateBoard(context, board) {
+      const [id, key, value] = Object.values(board);
+      await db
+        .collection("boards")
+        .doc(id)
+        .update({ [key]: value });
     },
 
     // Column actions

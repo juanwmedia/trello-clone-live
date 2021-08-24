@@ -7,13 +7,18 @@ export default {
   state: {
     board: {},
     columns: [],
-    cards: []
+    cards: [],
+    searchTerm: ""
   },
   getters: {
     getColumns: state => state.columns.sort((a, b) => a.order - b.order),
     getCardsByColumn: state => column =>
       state.cards
-        .filter(card => card.column === column)
+        .filter(
+          card =>
+            card.column === column &&
+            card.name.match(new RegExp(state.searchTerm, "i"))
+        )
         .sort((a, b) => a.order - b.order),
     getNextColumnOrder: state =>
       Math.max(...state.columns.map(column => column.order)) + 1,
@@ -29,6 +34,9 @@ export default {
     },
     setCards(state, cards) {
       state.cards = cards;
+    },
+    setSearchTerm(state, searchTerm) {
+      state.searchTerm = searchTerm;
     }
   },
   actions: {

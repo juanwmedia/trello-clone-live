@@ -23,6 +23,7 @@
       >
       <input
         type="search"
+        v-model="searchTerm"
         class="bg-gray-300 rounded p-1 text-gray-600 text-sm mr-3"
         placeholder="Search cards"
       />
@@ -42,6 +43,12 @@ export default {
   setup() {
     const store = useStore();
     const board = computed(() => store.state.boardModule.board);
+
+    const searchTerm = computed({
+      get: () => store.state.boardModule.searchTerm,
+      set: value => store.commit("boardModule/setSearchTerm", value)
+    });
+
     const editName = evt => {
       store.dispatch("boardModule/updateBoard", {
         id: board.value.id,
@@ -98,7 +105,14 @@ export default {
         console.error(error.message);
       }
     }
-    return { board, changeBackground, editName, userLogout, createColumn };
+    return {
+      board,
+      searchTerm,
+      changeBackground,
+      editName,
+      userLogout,
+      createColumn
+    };
   },
   components: {
     UserAvatar

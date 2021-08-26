@@ -37,4 +37,11 @@ export default {
   min-height: 50vh;
   @apply py-10 flex overflow-x-scroll;
 }
+
+@media (max-width: 768px) {
+  .board {
+    min-height: 100vh;
+    flex-wrap: wrap;
+  }
+}
 </style>

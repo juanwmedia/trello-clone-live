@@ -1,6 +1,6 @@
 <template>
-  <div class="flex justify-center items-start | relative">
-    <div class="flex items-center ">
+  <div class="flex flex-col items-center | relative">
+    <div class="flex order-1 items-center ">
       <div>
         <h1
           contenteditable
@@ -17,7 +17,9 @@
         >
       </div>
     </div>
-    <div class="flex items-center absolute right-0 top-0 ">
+    <div
+      class="flex order-0 md:order-2 items-center mb-3 md:mb-0 md:absolute right-0 top-0 "
+    >
       <a @click="changeBackground" href="#" class="mr-2 text-sm"
         >Change background</a
       >

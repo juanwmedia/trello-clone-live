@@ -1,5 +1,7 @@
 <template>
-  <div class="column | p-3 mr-4 | rounded bg-gray-100 cursor-move">
+  <div
+    class="column | p-3 mb-4 md:mb-0 md:mr-4 | rounded bg-gray-100 cursor-move"
+  >
     <div class="flex justify-between">
       <a
         v-show="emptyColumn"
@@ -63,5 +65,12 @@ export default {
 <style scoped>
 .column {
   flex-basis: 25%;
+  min-width: 16rem;
+}
+
+@media (max-width: 768px) {
+  .column {
+    flex-basis: 100%;
+  }
 }
 </style>
